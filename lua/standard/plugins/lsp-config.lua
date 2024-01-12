@@ -21,9 +21,9 @@ return {
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
       lspconfig.tsserver.setup({
-        on_attach = function(client)
-          client.resolved_capabilities.document_formatting = false
-          client.resolved_capabilities.document_range_formatting = false
+        on_init = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentFormattingRangeProvider = false
         end,
       })
 
@@ -73,9 +73,30 @@ return {
           end, opts)
 
 
+          local client_id = ev.data.client_id
+          local client = vim.lsp.get_client_by_id(client_id)
+          local bufnr = ev.buf
+
+          -- Only attach to clients that support document formatting
+          if not client.server_capabilities.documentFormattingProvider then
+            return
+          end
+
+          -- Tsserver usually works poorly. Sorry you work with bad languages
+          -- You can remove this line if you know what you're doing :)
+          if client.name == 'tsserver' then
+            return
+          end
+
           vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
             callback = function()
-              vim.lsp.buf.format { async = false }
+              vim.lsp.buf.format {
+                async = false,
+                filter = function(c)
+                  return c.id == client.id
+                end,
+              }
             end
           })
         end,

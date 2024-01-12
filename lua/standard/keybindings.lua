@@ -24,8 +24,8 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>")
 vim.keymap.set("n", "<C-s>", "<cmd>:w<CR>")
-vim.keymap.set("n", "<leader>bd", "<cmd>:q<CR>")
-vim.keymap.set("n", "<leader>qq", "<cmd>:qa<CR>")
+vim.keymap.set("n", "<leader>qq", "<cmd>:q<CR>")
+vim.keymap.set("n", "<leader>qa", "<cmd>:qa<CR>")
 
 -- Split windows
 vim.keymap.set("n", "<leader>ew", "<cmd>:vsplit<CR>")
