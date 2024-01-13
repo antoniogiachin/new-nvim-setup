@@ -20,6 +20,11 @@ return {
       -- Setup language servers.
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
+      -- CSS
+      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      lspconfig.cssls.setup {
+        capabilities = capabilities,
+      }
       lspconfig.tsserver.setup({
         on_init = function(client)
           client.server_capabilities.documentFormattingProvider = false
