@@ -22,6 +22,7 @@ return {
       lspconfig.lua_ls.setup({})
       -- CSS
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      lspconfig.html.setup {}
       lspconfig.cssls.setup {
         capabilities = capabilities,
       }
@@ -96,6 +97,16 @@ return {
           vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             callback = function()
+              if client.name == 'html' then
+                vim.cmd("Prettier")
+                return
+              end
+
+              if client.name == 'cssls' then
+                vim.cmd("Prettier")
+                return
+              end
+
               vim.lsp.buf.format {
                 async = false,
                 filter = function(c)
