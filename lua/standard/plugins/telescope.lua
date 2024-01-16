@@ -7,7 +7,7 @@ return {
     tag = "0.1.5",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     config = function()
       require("telescope").setup({
@@ -17,15 +17,26 @@ return {
           },
         },
         defaults = {
-          defaults = {
-            preview = {
-              treesitter = false,
-              filesize_hook = function(filepath, bufnr, opts)
-                local max_bytes = 5000
-                local cmd = { "head", "-c", max_bytes, filepath }
-                require('telescope.previewers.utils').job_maker(cmd, bufnr, opts)
-              end
-            },
+          preview = {
+            filesize_limit = 1.0, -- 1MB
+          },
+        },
+        pickers = {
+          find_files = {
+            theme = "dropdown",
+            previewer = false,
+          },
+          buffers = {
+            theme = "dropdown",
+            previewer = false,
+          },
+          help_tags = {
+            theme = "dropdown",
+            previewer = false,
+          },
+          lsp_implementations = {
+            theme = "dropdown",
+            previewer = false,
           },
         }
       })
@@ -41,6 +52,7 @@ return {
       vim.keymap.set('n', '<leader>fD', builtin.diagnostics, {})
       vim.keymap.set('n', '<leader>f/', builtin.current_buffer_fuzzy_find, {})
       vim.keymap.set('n', '<leader>fF', "<Cmd>Telescope flutter commands<CR>", {})
+      vim.keymap.set('n', '<leader>fM', "<Cmd>Telescope media_files<CR>", {})
 
       require("telescope").load_extension("ui-select")
       require("telescope").load_extension("flutter")
