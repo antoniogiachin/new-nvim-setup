@@ -18,7 +18,7 @@ return {
           device = true,
         },
       },
-      flutter_path = "/home/antoniogiachin/development/flutter/bin/flutter",
+      flutter_path = "/Users/antoniogiachin/flutter/bin/flutter",
     })
 
     require("flutter-tools").setup_project({
